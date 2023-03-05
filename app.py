@@ -1067,6 +1067,7 @@ def fn_tela_cadastro_produtos():
                                         sql="SELECT * FROM dProdutos", 
                                         con=conn
                                    )
+               conn.close()
                try:
                     df['Data_cadastro'] = df['Data_cadastro'].dt.strftime("%d/%m/%Y %H:%M:%S")
                     df['Data_atualizacao'] = df['Data_atualizacao'].dt.strftime("%d/%m/%Y %H:%M:%S")
@@ -1451,6 +1452,7 @@ def fn_tela_transacoes():
                                         sql="SELECT * FROM fTransacoes", 
                                         con=conn
                                    )
+               conn.close()
                diretorio = askdirectory(title="Selecione o local para salvar o arquivo",
                                         initialdir=fr"C:\Users\{environ['USERNAME']}\Downloads",
                                         mustexist=True)
