@@ -482,10 +482,13 @@ def fn_tela_cadastro_clientes():
                                         con=conn
                                    )
                conn.close()
-               df['Data_nascimento'] = df['Data_nascimento'].astype(np.datetime64)
-               df['Data_nascimento'] = df['Data_nascimento'].dt.strftime("%d/%m/%Y")
-               df['Data_cadastro'] = df['Data_cadastro'].dt.strftime("%d/%m/%Y %H:%M:%S")
-               df['Data_atualizacao'] = df['Data_atualizacao'].dt.strftime("%d/%m/%Y %H:%M:%S")
+               try:
+                    df['Data_nascimento'] = df['Data_nascimento'].astype(np.datetime64)
+                    df['Data_nascimento'] = df['Data_nascimento'].dt.strftime("%d/%m/%Y")
+                    df['Data_cadastro'] = df['Data_cadastro'].dt.strftime("%d/%m/%Y %H:%M:%S")
+                    df['Data_atualizacao'] = df['Data_atualizacao'].dt.strftime("%d/%m/%Y %H:%M:%S")
+               except:
+                    pass
                diretorio = askdirectory(title="Selecione o local para salvar o arquivo",
                                         initialdir=fr"C:\Users\{environ['USERNAME']}\Downloads",
                                         mustexist=True)
@@ -522,110 +525,114 @@ def fn_tela_cadastro_clientes():
           var_cidade = en_cidade.get().strip().title()
           var_estado = en_estado.get().strip()
           var_cep = en_cep.get().strip()
-          var_id_cliente = int(en_id_cliente.get().strip())
 
-          try:
-               dados_conexao = (
-                    "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
-               )
-               conn = pyodbc.connect(dados_conexao)
-               cursor = conn.cursor()
-               cursor.execute("SELECT * FROM dProdutos")
-               valores = cursor.fetchall()
-               lista_id_clientes = [valor[0] for valor in valores]
-               if en_id_cliente.get().strip() in lista_id_clientes:
-                    pass
-               else:
+          if en_id_cliente.get().strip() == "":
+                    showwarning(title="Pavio Rosa - Atenção", message="O id cliente não foi informado!")
+          else:
+               var_id_cliente = int(en_id_cliente.get().strip())
+               try:
+                    dados_conexao = (
+                         "Driver={SQL Server};"
+                         "Server=DESKTOP-OJGFM82;"
+                         "Database=db_pavio_rosa"
+                    )
+                    
+                    conn = pyodbc.connect(dados_conexao)
+                    cursor = conn.cursor()
+                    cursor.execute("SELECT * FROM dProdutos")
+                    valores = cursor.fetchall()
+                    lista_id_clientes = [valor[0] for valor in valores]
+                    if en_id_cliente.get().strip() in lista_id_clientes:
+                         pass
+                    else:
+                         cursor.close()
+                         conn.close()
+                         showwarning(title="Pavio Rosa - Atenção", message="O id cliente informado não está cadastrado na base de dados!")
+                    if var_nome != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Nome = '{var_nome}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_sobrenome != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Sobrenome = '{var_sobrenome}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_data_nascimento != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Data_nascimento = '{var_data_nascimento}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_genero != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Genero = '{var_genero}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_email != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Email = '{var_email}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_telefone != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Telefone = '{var_telefone}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_rua != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Rua = '{var_rua}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_numero != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Numero = '{var_numero}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_bairro != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Bairro = '{var_bairro}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_cidade != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Cidade = '{var_cidade}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_estado != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Estado = '{var_estado}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    if var_cep != "":
+                         cursor.execute(f'''
+                              UPDATE dClientes
+                              SET CEP = '{var_cep}'
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    cursor.execute(f'''
+                              UPDATE dClientes
+                              SET Data_atualizacao = FORMAT(GETDATE(), 'dd/MM/yyyy HH:mm:ss')
+                              WHERE ID_cliente = '{var_id_cliente}'
+                         ''')
+                    cursor.commit()
                     cursor.close()
                     conn.close()
-                    showwarning(title="Pavio Rosa - Atenção", message="O id cliente informado não está cadastrado na base de dados!")
-               if var_nome != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Nome = '{var_nome}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_sobrenome != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Sobrenome = '{var_sobrenome}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_data_nascimento != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Data_nascimento = '{var_data_nascimento}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_genero != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Genero = '{var_genero}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_email != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Email = '{var_email}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_telefone != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Telefone = '{var_telefone}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_rua != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Rua = '{var_rua}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_numero != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Numero = '{var_numero}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_bairro != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Bairro = '{var_bairro}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_cidade != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Cidade = '{var_cidade}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_estado != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Estado = '{var_estado}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               if var_cep != "":
-                    cursor.execute(f'''
-                         UPDATE dClientes
-                         SET CEP = '{var_cep}'
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               cursor.execute(f'''
-                         UPDATE dClientes
-                         SET Data_atualizacao = FORMAT(GETDATE(), 'dd/MM/yyyy HH:mm:ss')
-                         WHERE ID_cliente = '{var_id_cliente}'
-                    ''')
-               cursor.commit()
-               cursor.close()
-               conn.close()
-               showinfo(title="Pavio Rosa - Atenção", message="Dados atualizados com sucesso!")
-               fn_limpar_campos()
-          except:
-               showerror(title="Pavio Rosa - Atenção", message="Algo inesperado ocorreu durante a atualização dos dados da base de clientes!\n\nTente novamente e caso o erro persista, entre em contato com o desenvolvedor do sistema para maiores esclarecimentos.")
-               fn_limpar_campos()
+                    showinfo(title="Pavio Rosa - Atenção", message="Dados atualizados com sucesso!")
+                    fn_limpar_campos()
+               except:
+                    showerror(title="Pavio Rosa - Atenção", message="Algo inesperado ocorreu durante a atualização dos dados da base de clientes!\n\nTente novamente e caso o erro persista, entre em contato com o desenvolvedor do sistema para maiores esclarecimentos.")
+                    fn_limpar_campos()
 
      # função para limpar os campos que foram preenchidos
 
@@ -1060,8 +1067,11 @@ def fn_tela_cadastro_produtos():
                                         sql="SELECT * FROM dProdutos", 
                                         con=conn
                                    )
-               df['Data_cadastro'] = df['Data_cadastro'].dt.strftime("%d/%m/%Y %H:%M:%S")
-               df['Data_atualizacao'] = df['Data_atualizacao'].dt.strftime("%d/%m/%Y %H:%M:%S")
+               try:
+                    df['Data_cadastro'] = df['Data_cadastro'].dt.strftime("%d/%m/%Y %H:%M:%S")
+                    df['Data_atualizacao'] = df['Data_atualizacao'].dt.strftime("%d/%m/%Y %H:%M:%S")
+               except:
+                    pass
                diretorio = askdirectory(title="Selecione o local para salvar o arquivo",
                                         initialdir=fr"C:\Users\{environ['USERNAME']}\Downloads",
                                         mustexist=True)
@@ -1444,6 +1454,10 @@ def fn_tela_transacoes():
                diretorio = askdirectory(title="Selecione o local para salvar o arquivo",
                                         initialdir=fr"C:\Users\{environ['USERNAME']}\Downloads",
                                         mustexist=True)
+               try:
+                    df['Data_venda'] = df['Data_venda'].dt.strftime("%d/%m/%Y")
+               except:
+                    pass
                if diretorio == "" or diretorio == None:
                     sleep(1)
                     var_confirmar = askyesno(title="Pavio Rosa - Atenção", message="Você não selecionou nenhum local para salvar o arquivo. Deseja mesmo cancelar a operação?", default="no")
