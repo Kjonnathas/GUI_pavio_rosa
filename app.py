@@ -421,8 +421,8 @@ def fn_tela_cadastro_clientes():
                try:
                     dados_conexao = (
                     "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
+                    "Server=servidor;"
+                    "Database=banco"
                     )
                     conn = pyodbc.connect(dados_conexao)
                     cursor = conn.cursor()
@@ -473,8 +473,8 @@ def fn_tela_cadastro_clientes():
           try:
                dados_conexao = (
                     "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
+                    "Server=servidor;"
+                    "Database=banco"
                )
                conn = pyodbc.connect(dados_conexao)
                df = pd.read_sql_query(
@@ -533,8 +533,8 @@ def fn_tela_cadastro_clientes():
                try:
                     dados_conexao = (
                          "Driver={SQL Server};"
-                         "Server=DESKTOP-OJGFM82;"
-                         "Database=db_pavio_rosa"
+                         "Server=servidor;"
+                         "Database=banco"
                     )
                     
                     conn = pyodbc.connect(dados_conexao)
@@ -1016,8 +1016,8 @@ def fn_tela_cadastro_produtos():
                try:
                     dados_conexao = (
                     "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
+                    "Server=servidor;"
+                    "Database=banco"
                     )
                     conn = pyodbc.connect(dados_conexao)
                     cursor = conn.cursor()
@@ -1059,8 +1059,8 @@ def fn_tela_cadastro_produtos():
           try:
                dados_conexao = (
                     "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
+                    "Server=servidor;"
+                    "Database=banco"
                )
                conn = pyodbc.connect(dados_conexao)
                df = pd.read_sql_query(
@@ -1131,8 +1131,8 @@ def fn_tela_cadastro_produtos():
                try:
                     dados_conexao = (
                     "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
+                    "Server=servidor;"
+                    "Database=banco"
                     )
                     conn = pyodbc.connect(dados_conexao)
                     cursor = conn.cursor()
@@ -1393,8 +1393,8 @@ def fn_tela_transacoes():
                try:
                     dados_conexao = (
                     "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
+                    "Server=servidor;"
+                    "Database=banco"
                     )
                     conn = pyodbc.connect(dados_conexao)
                     cursor = conn.cursor()
@@ -1444,8 +1444,8 @@ def fn_tela_transacoes():
           try:
                dados_conexao = (
                     "Driver={SQL Server};"
-                    "Server=DESKTOP-OJGFM82;"
-                    "Database=db_pavio_rosa"
+                    "Server=servidor;"
+                    "Database=banco"
                )
                conn = pyodbc.connect(dados_conexao)
                df = pd.read_sql_query(
