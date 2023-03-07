@@ -65,7 +65,7 @@ def fn_tela_esqueci_minha_senha():
                email.To = en_email.get()
                email.Subject = "Pavio Rosa - Recuperação de senha"
                email.HTMLBody = f'''
-                                   <p> Prezada Juliana, </p>
+                                   <p> Prezado usuário, </p>
                                    <p> Segue a sua senha, conforme solicitado: <b> {senha} </b> </p>
                               '''
                email.Send()
