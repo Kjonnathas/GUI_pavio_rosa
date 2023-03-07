@@ -147,7 +147,7 @@ def fn_tela_alterar_senha():
                     showwarning(title="Pavio Rosa - Atenção", message="O campo da senha nova não foi preenchido!")
                elif senha_anterior == senha_atual:
                     with open(file="credenciais.txt", mode="r", encoding="utf-8") as arq_credenciais:
-                         arq_credenciais.write("juliana.pavio_rosa," + senha_nova + lembrar_login)
+                         arq_credenciais.write("usuario," + senha_nova + lembrar_login)
                          arq_credenciais.close()
                          janela_alterar_senha.destroy()
                          fn_tela_menu()
@@ -1633,7 +1633,7 @@ def fn_tela_transacoes():
 def fn_gravar_usuario():
 
      with open(file="credenciais.txt", mode="w", encoding="utf-8") as arq_credenciais:
-          arq_credenciais.write("juliana.pavio_rosa,pavio_rosa.2023," + str(cb_checar_login.get()))
+          arq_credenciais.write("usuario,senha," + str(cb_checar_login.get()))
           arq_credenciais.close()
 
 # função para lembrar o usuário se o mesmo desejar
@@ -1661,7 +1661,7 @@ def fn_logar():
           usuario = credenciais[0].strip()
           senha = credenciais[1].strip()
           if usuario == en_usuario.get() and senha == en_senha.get():
-               aguardar_ok = showinfo(title="Pavio Rosa", message="Seja bem-vinda, Juliana!")
+               aguardar_ok = showinfo(title="Pavio Rosa", message="Seja bem-vindo, usuário!")
                if aguardar_ok == "ok":
                     janela_principal.destroy()
                     fn_tela_menu()
